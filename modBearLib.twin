@@ -1,0 +1,254 @@
+Module modBearLib
+
+    '/*
+    '* BearLibTerminal
+    '* Copyright (C) 2013-2014 Cfyz
+    '*
+    '* Permission is hereby granted, free of charge, to any person obtaining a copy
+    '* of this software and associated documentation files (the "Software"), to deal
+    '* in the Software without restriction, including without limitation the rights
+    '* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+    '* of the Software, and to permit persons to whom the Software is furnished to do
+    '* so, subject to the following conditions:
+    '*
+    '* The above copyright notice and this permission notice shall be included in all
+    '* copies or substantial portions of the Software.
+    '*
+    '* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    '* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+    '* FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+    '* COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+    '* IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+    '* CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+    '*/
+
+    
+    Type dimensions_t
+        
+        width As Long
+        height As Long
+        
+    End Type
+    
+    
+    ' Text printing alignment.
+    Public Const TK_ALIGN_DEFAULT    = 0
+    Public Const TK_ALIGN_LEFT       = 1
+    Public Const TK_ALIGN_RIGHT      = 2
+    Public Const TK_ALIGN_CENTER     = 3
+    Public Const TK_ALIGN_TOP        = 4
+    Public Const TK_ALIGN_BOTTOM     = 8
+    Public Const TK_ALIGN_MIDDLE     = 12
+    
+    '/*
+    ' * Keyboard scancodes for events/states
+    ' */
+    Public Const TK_A = &H04
+    Public Const TK_B = &H05
+    Public Const TK_C = &H06
+    Public Const TK_D = &H07
+    Public Const TK_E = &H08
+    Public Const TK_F = &H09
+    Public Const TK_G = &H0A
+    Public Const TK_H = &H0B
+    Public Const TK_I = &H0C
+    Public Const TK_J = &H0D
+    Public Const TK_K = &H0E
+    Public Const TK_L = &H0F
+    Public Const TK_M = &H10
+    Public Const TK_N = &H11
+    Public Const TK_O = &H12
+    Public Const TK_P = &H13
+    Public Const TK_Q = &H14
+    Public Const TK_R = &H15
+    Public Const TK_S = &H16
+    Public Const TK_T = &H17
+    Public Const TK_U = &H18
+    Public Const TK_V = &H19
+    Public Const TK_W = &H1A
+    Public Const TK_X = &H1B
+    Public Const TK_Y = &H1C
+    Public Const TK_Z = &H1D
+    Public Const TK_1 = &H1E
+    Public Const TK_2 = &H1F
+    Public Const TK_3 = &H20
+    Public Const TK_4 = &H21
+    Public Const TK_5 = &H22
+    Public Const TK_6 = &H23
+    Public Const TK_7 = &H24
+    Public Const TK_8 = &H25
+    Public Const TK_9 = &H26
+    Public Const TK_0 = &H27
+    Public Const TK_RETURN = &H28
+    Public Const TK_ENTER = &H28
+    Public Const TK_ESCAPE = &H29
+    Public Const TK_BACKSPACE = &H2A
+    Public Const TK_TAB = &H2B
+    Public Const TK_SPACE = &H2C
+    Public Const TK_MINUS = &H2D '/*  -  */
+    Public Const TK_EQUALS = &H2E '/*  =  */
+    Public Const TK_LBRACKET = &H2F '/*  [  */
+    Public Const TK_RBRACKET = &H30 '/*  ]  */
+    Public Const TK_BACKSLASH = &H31 '/*  \  */
+    Public Const TK_SEMICOLON = &H33 '/*  ;  */
+    Public Const TK_APOSTROPHE = &H34 '/*  '  */
+    Public Const TK_GRAVE = &H35 '/*  `  */
+    Public Const TK_COMMA = &H36 '/*  ,  */
+    Public Const TK_PERIOD = &H37 '/*  .  */
+    Public Const TK_SLASH = &H38 '/*  /  */
+    Public Const TK_F1 = &H3A
+    Public Const TK_F2 = &H3B
+    Public Const TK_F3 = &H3C
+    Public Const TK_F4 = &H3D
+    Public Const TK_F5 = &H3E
+    Public Const TK_F6 = &H3F
+    Public Const TK_F7 = &H40
+    Public Const TK_F8 = &H41
+    Public Const TK_F9 = &H42
+    Public Const TK_F10 = &H43
+    Public Const TK_F11 = &H44
+    Public Const TK_F12 = &H45
+    Public Const TK_PAUSE = &H48 '/* Pause/Break */
+    Public Const TK_INSERT = &H49
+    Public Const TK_HOME = &H4A
+    Public Const TK_PAGEUP = &H4B
+    Public Const TK_DELETE = &H4C
+    Public Const TK_END = &H4D
+    Public Const TK_PAGEDOWN = &H4E
+    Public Const TK_RIGHT = &H4F '/* Right arrow */
+    Public Const TK_LEFT = &H50 '/* Left arrow */
+    Public Const TK_DOWN = &H51 '/* Down arrow */
+    Public Const TK_UP = &H52 '/* Up arrow */
+    Public Const TK_KP_DIVIDE = &H54 '/* '/' on numpad */
+    Public Const TK_KP_MULTIPLY = &H55 '/* '*' on numpad */
+    Public Const TK_KP_MINUS = &H56 '/* '-' on numpad */
+    Public Const TK_KP_PLUS = &H57 '/* '+' on numpad */
+    Public Const TK_KP_ENTER = &H58
+    Public Const TK_KP_1 = &H59
+    Public Const TK_KP_2 = &H5A
+    Public Const TK_KP_3 = &H5B
+    Public Const TK_KP_4 = &H5C
+    Public Const TK_KP_5 = &H5D
+    Public Const TK_KP_6 = &H5E
+    Public Const TK_KP_7 = &H5F
+    Public Const TK_KP_8 = &H60
+    Public Const TK_KP_9 = &H61
+    Public Const TK_KP_0 = &H62
+    Public Const TK_KP_PERIOD = &H63 '/* '.' on numpad */
+    Public Const TK_SHIFT = &H70
+    Public Const TK_CONTROL = &H71
+
+    '/*
+    ' * Mouse events/states
+    ' */
+    Public Const TK_MOUSE_LEFT = &H80 '/* Buttons */
+    Public Const TK_MOUSE_RIGHT = &H81
+    Public Const TK_MOUSE_MIDDLE = &H82
+    Public Const TK_MOUSE_X1 = &H83
+    Public Const TK_MOUSE_X2 = &H84
+    Public Const TK_MOUSE_MOVE = &H85 '/* Movement event */
+    Public Const TK_MOUSE_SCROLL = &H86 '/* Mouse scroll event */
+    Public Const TK_MOUSE_X = &H87 '/* Cusor position in cells */
+    Public Const TK_MOUSE_Y = &H88
+    Public Const TK_MOUSE_PIXEL_X = &H89 '/* Cursor position in pixels */
+    Public Const TK_MOUSE_PIXEL_Y = &H8A
+    Public Const TK_MOUSE_WHEEL = &H8B '/* Scroll direction and amount */
+    Public Const TK_MOUSE_CLICKS = &H8C '/* Number of consecutive clicks */
+
+    '/*
+    ' * If key was released instead of pressed, it's code will be OR'ed with TK_KEY_RELEASED:
+    ' * a) pressed 'A': &H04
+    ' * b) released 'A': &H04OrVK_KEY_RE&EASED = &H104
+    ' */
+    Public Const TK_KEY_RELEASED = &H100
+
+    '/*
+    ' * Virtual key-codes for internal terminal states/variables.
+    ' * These can be accessed via terminal_state function.
+    ' */
+    Public Const TK_WIDTH = &HC0 '/* Terminal window size in cells */
+    Public Const TK_HEIGHT = &HC1
+    Public Const TK_CELL_WIDTH = &HC2 '/* Character cell size in pixels */
+    Public Const TK_CELL_HEIGHT = &HC3
+    Public Const TK_COLOR = &HC4 '/* Current foregroung color */
+    Public Const TK_BKCOLOR = &HC5 '/* Current background color */
+    Public Const TK_LAYER = &HC6 '/* Current layer */
+    Public Const TK_COMPOSITION = &HC7 '/* Current composition state */
+    Public Const TK_CHAR = &HC8 '/* Translated ANSI code of last produced character */
+    Public Const TK_WCHAR = &HC9 '/* Unicode codepoint of last produced character */
+    Public Const TK_EVENT = &HCA '/* Last dequeued event */
+    Public Const TK_FULLSCREEN = &HCB '/* Fullscreen state */
+
+    '/*
+    ' * Other events
+    ' */
+    Public Const TK_CLOSE = &HE0
+    Public Const TK_RESIZED = &HE1
+
+    '/*
+    ' * Generic mode enum.
+    ' * Right now it is used for composition option only.
+    ' */
+    Public Const TK_OFF = 0
+    Public Const TK_ON = 1
+
+    '/*
+    ' * Input result codes for terminal_read function.
+    ' */
+    Public Const TK_INPUT_NONE = 0
+    Public Const TK_INPUT_CANCELLED = -1
+
+
+    Public Declare Function terminal_open CDecl Lib "BearLibTerminal" () As Long
+    Public Declare Sub terminal_close CDecl Lib "BearLibTerminal" ()
+    Public Declare Function terminal_set8 CDecl Lib "BearLibTerminal" (text As String) As Long
+    Public DeclareWide Function terminal_set16 CDecl Lib "BearLibTerminal" (ByVal text As String) As Long
+    ' Public Declare Function terminal_set32 CDecl Lib "BearLibTerminal" (const as Long32_t * As value) as Long
+    Public Declare Sub terminal_refresh CDecl Lib "BearLibTerminal" ()
+    Public Declare Sub terminal_clear CDecl Lib "BearLibTerminal" ()
+    Public Declare Sub terminal_clear_area CDecl Lib "BearLibTerminal" (ByVal x As Long, ByVal y As Long, ByVal w As Long, ByVal h As Long)
+    Public Declare Sub terminal_crop CDecl Lib "BearLibTerminal" (ByVal x As Long, ByVal y As Long, ByVal w As Long, ByVal h As Long)
+    Public Declare Sub terminal_layer CDecl Lib "BearLibTerminal" (ByVal index As Long)
+    Public Declare Sub terminal_color CDecl Lib "BearLibTerminal" (ByVal color As Long)
+    Public Declare Sub terminal_bkcolor CDecl Lib "BearLibTerminal" (ByVal color As Long)
+    Public Declare Sub terminal_composition CDecl Lib "BearLibTerminal" (ByVal mode As Long)
+    Public Declare Sub terminal_put CDecl Lib "BearLibTerminal" (ByVal x As Long, ByVal y As Long, ByVal code As Long)
+   Public Declare Sub terminal_put_ext CDecl Lib "BearLibTerminal" (ByVal x As Long, ByVal y As Long, ByVal dx As Long, ByVal dy As Long, ByVal code As Long, ByVal corners As Long)
+    Public Declare Function terminal_pick CDecl Lib "BearLibTerminal" (ByVal x As Long, ByVal y As Long, ByVal index As Long) As Long
+    Public DeclareWide Function terminal_print8 CDecl Lib "BearLibTerminal" (x As Long, y As Long, ByVal s As String) As Long
+    Public DeclareWide Function terminal_print16 CDecl Lib "BearLibTerminal" (ByVal x As Long, ByVal y As Long, ByVal s As String) As Long
+    Public DeclareWide Function terminal_print32 CDecl Lib "BearLibTerminal" (x As Long, y As Long, ByVal s As String) As Long
+    ' Public Declare Function terminal_measure8 CDecl Lib "BearLibTerminal" (const as Long8_t * As s) as Long
+    'Public DeclareWide Function terminal_measure16 CDecl Lib "BearLibTerminal" (const as Long16_t * As s) as Long
+    Public Declare Sub Terminal_Measure_Ext16 CDecl Lib "BearLibTerminal" (ByVal w As Long, ByVal h As Long, ByVal s As String, ByRef w As Long, ByRef h As Long)
+    ' Public Declare Function terminal_measure32 CDecl Lib "BearLibTerminal" (const as Long32_t * As s) as Long
+    Public Declare Function terminal_has_input CDecl Lib "BearLibTerminal" () As Long
+    Public Declare Function terminal_state CDecl Lib "BearLibTerminal" (ByVal code As Long) As Long
+    Public Declare Function terminal_read CDecl Lib "BearLibTerminal" () As Long
+    ' Public Declare Function terminal_read_str8 CDecl Lib "BearLibTerminal" (x as Long, y as Long, buffer as Long8_t *, max as Long) as Long
+    Public Declare Function terminal_read_str16 CDecl Lib "BearLibTerminal" (ByVal x As Long, ByVal y As Long, ByRef buffer As String, ByVal max As Long) As Long
+    ' Public Declare Function terminal_read_str32 CDecl Lib "BearLibTerminal" (x as Long, y as Long, buffer as Long32_t *, max as Long) as Long
+    Public Declare Function terminal_peek CDecl Lib "BearLibTerminal" () As Long
+    Public DeclareWide Function Terminal_Get16 CDecl Lib "BearLibTerminal" (ByVal key As String, ByVal default_ As String) As String
+    Public DeclareWide Function color_from_name16 CDecl Lib "BearLibTerminal" (ByVal name As String) As Long
+    Public DeclareWide Function terminal_pick_color CDecl Lib "BearLibTerminal" (ByVal x As Long, ByVal y As Long, ByVal code As Long) As Long
+    
+    
+    Public Declare Sub terminal_delay CDecl Lib "BearLibTerminal" (ByVal period As Long)
+    Public Declare Sub ExitProcess Lib "kernel32" (ByVal uExitCode As Long)
+    Public DeclareWide Sub Terminal_Print_Ext16 CDecl Lib "BearLibTerminal" (ByVal x As Long, ByVal y As Long, ByVal w As Long, ByVal h As Long, ByVal align As Long, ByVal s As String, ByRef out_w As Long, ByRef out_h As Long)
+        
+    Public Sub color_from_name(ByVal name As String)
+        terminal_color(color_from_name16(name))
+    End Sub
+
+
+    Public Function terminal_print(ByVal x As Long, ByVal y As Long, ByVal s As String) As Long
+        Return terminal_print16(x, y, s)
+    End Function
+    
+    Public Function terminal_set(ByVal text As String) As Long
+        Return terminal_set16(text)
+    End Function
+ 
+End Module
