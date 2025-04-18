@@ -25,7 +25,7 @@ Not all of the API calls have been tested.
 This is a 32-bit binding.  
 (Font loading and applying fonts are not working, maybe someone could fix this) 
 
-![screenshot](https://github.com/JazzCoder1/tB_SIGIL/blob/main/screenshots.PNG "Examples")
+![screenshot](https://github.com/JazzCoder1/tb_BearLibTerminal/blob/main/bearlibterm.png?raw=true "Examples")
 
 ### License
 
